@@ -1,3 +1,3 @@
 #!/bin/bash
 
-ruby horae.rb
+ruby src/horae.rb

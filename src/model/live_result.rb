@@ -6,4 +6,8 @@ class LiveResult
         @scheduled_time = scheduled_time
         @actual_time = actual_time
     end
+
+    def to_s
+        return "#{train_num}, #{scheduled_time}, #{actual_time}"
+    end
 end
