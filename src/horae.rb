@@ -7,9 +7,9 @@ def print_results(results)
     end
 end
 
-schedule_service = Horae::MetraScheduleService.new('data/metra_20130308_0424.zip')
+schedule_service = Horae::MetraScheduleService.new()
 
-routes = schedule_service.routes
+routes = schedule_service.stops()
 
 puts routes.to_s
 

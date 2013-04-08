@@ -3,11 +3,11 @@ require_relative '../model/live_result.rb'
 
 module Horae
     class MetraScrapeService
-        def self.get_live_results(opts = {})
+        def get_live_results(opts = {})
             results = scrape_site(opts[:line], opts[:origin], opts[:dest])
         end
 
-        def self.scrape_site(line, origin, destination)
+        def scrape_site(line, origin, destination)
             b = Watir::Browser.new
             b.goto 'http://metrarail.com/metra/wap/en/home/RailTimeTracker.html'
             line_select = b.select_list(:id => 'findLine-0')

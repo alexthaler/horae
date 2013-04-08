@@ -1,0 +1,12 @@
+fare_id, price, currency_type, payment_method, transfers, transfer_duration
+ 1, 2.75, USD, 1, 0, 0
+ 2, 3.00, USD, 1, 0, 0
+ 3, 4.25, USD, 1, 0, 0
+ 4, 4.75, USD, 1, 0, 0
+ 5, 5.25, USD, 1, 0, 0
+ 6, 5.75, USD, 1, 0, 0
+ 7, 6.25, USD, 1, 0, 0
+ 8, 6.75, USD, 1, 0, 0
+ 9, 7.25, USD, 1, 0, 0
+10, 7.75, USD, 1, 0, 0
+11, 8.25, USD, 1, 0, 0
