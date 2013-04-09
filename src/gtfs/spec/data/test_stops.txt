@@ -1,0 +1,3 @@
+stop_id, stop_name, stop_desc, stop_lat, stop_lon, zone_id, stop_url
+GENEVA, Geneva, , 41.8816667, -88.3100000, H, http://metrarail.com/metra/en/home/maps_schedules/metra_system_map/up-w/station.GENEVA.html
+WCHICAGO, West Chicago, , 41.8811111, -88.1988889, F, http://metrarail.com/metra/en/home/maps_schedules/metra_system_map/up-w/station.WCHICAGO.html
