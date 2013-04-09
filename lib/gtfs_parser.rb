@@ -1,3 +1,5 @@
+require 'csv'
+
 module Horae
     class GtfsParser
 
