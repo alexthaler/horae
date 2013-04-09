@@ -1,5 +1,5 @@
 require 'csv'
-require_relative '../gtfs/gtfs_parser.rb'
+require_relative 'gtfs_parser'
 
 module Horae 
     class MetraScheduleService 

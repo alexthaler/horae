@@ -1,7 +1,7 @@
 require 'sinatra'
 require 'json'
-require_relative '../service/metra_schedule_service.rb'
-require_relative '../service/metra_scrape_service.rb'
+require_relative 'metra_schedule_service.rb'
+require_relative 'metra_scrape_service.rb'
 
 
 class HoraeController < Sinatra::Base
