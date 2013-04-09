@@ -7,6 +7,35 @@ describe "Metra schedule service" do
     @service = Horae::MetraScheduleService.new
   end
 
+  it 'trip ids for service should search for S1 by default' do
+    fake_trips = [{:trip_id => 'ABC', :service_id => 'S1'},{:trip_id => 'DEF', :service_id => 'S2'},
+                  {:trip_id => 'JFK', :service_id => 'S1'},{:trip_id => 'ABC', :service_id => 'S3'}]
+    result = @service.trip_ids_for_service(fake_trips)
+    result.size.should eql 2
+  end
+
+  it 'trip ids for service should filter correctly' do
+    fake_trips = [{:trip_id => 'ABC', :service_id => 'S1'},{:trip_id => 'DEF', :service_id => 'S2'},
+                  {:trip_id => 'JFK', :service_id => 'S1'},{:trip_id => 'ABC', :service_id => 'S3'}]
+    result = @service.trip_ids_for_service(fake_trips)
+    result.size.should eql 2
+    result.should include('ABC', 'JFK')
+    result = @service.trip_ids_for_service(fake_trips, 'S2')
+    result.size.should eql 1
+    result.should include('DEF')
+    result = @service.trip_ids_for_service(fake_trips, 'S3')
+    result.size.should eql 1
+    result.should include('ABC')
+  end
+
+  it 'trip ids for service should return an empty list if service id not in set' do
+    fake_trips = [{:trip_id => 'ABC', :service_id => 'S1'},{:trip_id => 'DEF', :service_id => 'S2'},
+                  {:trip_id => 'JFK', :service_id => 'S1'},{:trip_id => 'ABC', :service_id => 'S3'}]
+    result = @service.trip_ids_for_service(fake_trips, 'S5')
+    result.size.should eql 0
+  end
+
+
   it 'routes - should return only the route ids by default' do
     route_ids = @service.routes
     route_ids.length.should eql 11
