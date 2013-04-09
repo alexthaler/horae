@@ -20,9 +20,24 @@ module Horae
       def search_schedule(origin, dest, service='S1', opts = {})
         trip_ids = trip_ids_for_service(trips, service)
 
-        stop_times_for_origin_dest = stop_times.select{ |stop|
-          (stop[:stop_id].eql? origin)|| (stop[:stop_id].eql? dest)
+        stop_times_for_origin = stop_times.select{ |stop|
+          (stop[:stop_id].eql? origin)
         }
+
+        trip_ids_for_st = []
+        stop_times_for_origin.each do |time|
+          trip_ids_for_st.push(time[:trip_id])
+        end
+
+        trip_ids_that_hit_orig_and_dest = []
+        trip_ids_for_st.each do |trip_id|
+          stops = stop_times.select { |time|
+            time[:trip_id] = trip_id
+          }
+          trip_ids_that_hit_orig_and_dest.push(trip_id) unless !stops.map{|stop| stop[:stop_id]}.includes? (dest)
+
+        end
+
       end
 
       def trip_ids_for_service(trips, service_id = "S1")
