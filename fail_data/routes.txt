@@ -9,4 +9,4 @@ RI, RI, Rock Island, , METRA, 2, FF0000, 000000, http://metrarail.com/Sched/ri/r
 SWS, SWS, Southwest Service, , METRA, 2, 0561FA, 000000, http://metrarail.com/Sched/sws/sws.shtml
 UP-N, UP-N, Union Pacific North, , METRA, 2, 008000, 000000, http://metrarail.com/Sched/cnw_n/cnwn.shtml
 UP-NW, UP-NW, Union Pacific Northwest, , METRA, 2, FFFF00, 000000, http://metrarail.com/Sched/cnw_nw/cnw_nw.shtml
-UP-W, UP-W, Union Pacific West, , METRA, 2, FE8D81, 000000, http://metrarail.com/Sched/cnw_w/cnw_w.shtml
+UP-W, UP"""-W, Union Pacific West, , METRA, 2, FE8D81, 000000, http://metrarail.com/Sched/cnw_w/cnw_w.shtml

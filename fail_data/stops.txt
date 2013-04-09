@@ -1,0 +1,2 @@
+stop_id, stop_name, stop_desc, stop_lat, stop_lon, zone_id, stop_url
+35TH, "35th St. / ""Lou"" Jones", 41.8313889, -87.6291667, A, http://metrarail.com/metra/en/home/maps_schedules/metra_system_map/ri/station.35TH.html

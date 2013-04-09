@@ -1,0 +1,18 @@
+route_id, service_id, trip_id, trip_headsign, block_id, shape_id
+BNSF, S1, BNSF_BN1200_V1, Chicago Union Station, , BNSF_IB_1
+BNSF, S1, BNSF_BN1202_V1, Chicago Union Station, , BNSF_IB_1
+BNSF, S1, BNSF_BN1204_V1, Chicago Union Station, , BNSF_IB_1
+BNSF, S1, BNSF_BN1206_V1, Chicago Union Station, , BNSF_IB_1
+BNSF, S1, BNSF_BN1208_V1, Chicago Union Station, , BNSF_IB_1
+BNSF, S1, BNSF_BN1210_V1, Chicago Union Station, , BNSF_IB_1
+BNSF, S1, BNSF_BN1212_V1, Chicago Union Station, , BNSF_IB_1
+BNSF, S1, BNSF_BN1214_V1, Chicago Union Station, , BNSF_IB_1
+BNSF, S1, BNSF_BN1216_V1, Chicago Union Station, , BNSF_IB_1
+BNSF, S1, BNSF_BN1218_V1, Chicago Union Station, , BNSF_IB_1
+BNSF, S1, BNSF_BN1220_V1, Chicago Union Station, , BNSF_IB_1
+BNSF, S1, BNSF_BN1222_V1, Chicago Union Station, , BNSF_IB_1
+BNSF, S1, BNSF_BN1224_V1, Chicago Union Station, , BNSF_IB_1
+BNSF, S1, BNSF_BN1226_V1, Chicago Union Station, , BNSF_IB_1
+BNSF, S1, BNSF_BN1228_V1, Chicago Union Station, , BNSF_IB_1
+BNSF, S1, BNSF_BN1230_V1, Chicago Union Station, , BNSF_IB_1
+BNSF, S1, BNSF_BN12""32_V1, Chicago Union Station, , BNSF_IB_1
