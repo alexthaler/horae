@@ -4,7 +4,6 @@ module Horae
   class GtfsParser
 
     def parse_file(path_to_file, opts = {})
-
       ret_array = []
       data_elements = []
       first_row = true
@@ -29,6 +28,12 @@ module Horae
       end
 
       ret_array
+    end
+
+    def parse_time_string(time_string)
+      now = Time.new
+      time_elements = time_string.split(':')
+      Time.new(now.year, now.month, now.day, time_elements[0].to_i, time_elements[1].to_i, time_elements[2].to_i)
     end
 
   end
