@@ -46,7 +46,7 @@ describe "Metra schedule service" do
   end
 
   it 'should raise an error when calling search_stop_times with arrival_time and stop' do
-    lambda {@service.search_stop_times($fake_stop_times, {:time => '01:30:00', :stop => 'RAVENSWOOD'})}
+    lambda {@service.search_stop_times($fake_stop_times, {:time => '01:30:00', :stop_id => 'RAVENSWOOD'})}
       .should raise_error
   end
 
@@ -55,7 +55,7 @@ describe "Metra schedule service" do
     time = '12:00:00'
     stop = 'OTC'
     results = @service.search_stop_times($fake_stop_times, 
-      {:trips => trip_ids, :time => time, :stop => stop})
+      {:trips => trip_ids, :time => time, :stop_id => stop})
 
     results.size.should eql 0
   end
@@ -65,7 +65,7 @@ describe "Metra schedule service" do
     time = '03:00:00'
     stop = 'NOTFOUND'
     results = @service.search_stop_times($fake_stop_times, 
-      {:trips => trip_ids, :time => time, :stop => stop})
+      {:trips => trip_ids, :time => time, :stop_id => stop})
 
     results.size.should eql 0
   end
@@ -75,7 +75,7 @@ describe "Metra schedule service" do
     time = '00:00:00'
     stop = 'OTC'
     results = @service.search_stop_times($fake_stop_times, 
-      {:trips => trip_ids, :time => time, :stop => stop})
+      {:trips => trip_ids, :time => time, :stop_id => stop})
 
     results.size.should eql 1
     trip_ids.should include results[0][:trip_id]
@@ -88,7 +88,7 @@ describe "Metra schedule service" do
     time = '03:00:00'
     stop = 'OTC'
     results = @service.search_stop_times($fake_stop_times, 
-      {:trips => trip_ids, :time => time, :stop => stop})
+      {:trips => trip_ids, :time => time, :stop_id => stop})
 
     results.size.should eql 1
     trip_ids.should include results[0][:trip_id]
@@ -101,7 +101,7 @@ describe "Metra schedule service" do
     time = '03:00:00'
     stop = 'CUS'
     results = @service.search_stop_times($fake_stop_times, 
-      {:trips => trip_ids, :time => time, :stop => stop})
+      {:trips => trip_ids, :time => time, :stop_id => stop})
 
     results.size.should eql 1
     trip_ids.should include results[0][:trip_id]
@@ -114,7 +114,7 @@ describe "Metra schedule service" do
     time = '03:00:00'
     stop = 'OTC'
     results = @service.search_stop_times($fake_stop_times, 
-      {:trips => trip_ids, :time => time, :stop => stop})
+      {:trips => trip_ids, :time => time, :stop_id => stop})
 
     results.size.should eql 1
     trip_ids.should include results[0][:trip_id]
@@ -127,7 +127,7 @@ describe "Metra schedule service" do
     time = '00:00:00'
     stop = 'RAVENSWOOD'
     results = @service.search_stop_times($fake_stop_times, 
-      {:trips => trip_ids, :time => time, :stop => stop})
+      {:trips => trip_ids, :time => time, :stop_id => stop})
 
     results.size.should eql 1
     trip_ids.should include results[0][:trip_id]
@@ -140,7 +140,7 @@ describe "Metra schedule service" do
     time = '03:00:00'
     stop = 'CLYBOURN'
     results = @service.search_stop_times($fake_stop_times, 
-      {:trips => trip_ids, :time => time, :stop => stop})
+      {:trips => trip_ids, :time => time, :stop_id => stop})
 
     results.size.should eql 1
     trip_ids.should include results[0][:trip_id]
@@ -153,16 +153,16 @@ describe "Metra schedule service" do
     time = '03:00:00'
     stop = 'OTC'
     results = @service.search_stop_times($fake_stop_times, 
-      {:trips => trip_ids, :time => time, :stop => stop})
+      {:trips => trip_ids, :time => time, :stop_id => stop})
 
     results.size.should eql 3
     results.each do |result|
       trip_ids.should include result[:trip_id]
+      result[:stop_id].should eql stop    
     end
     results[0][:arrival_time].should eql '04:30:00'
     results[1][:arrival_time].should eql '10:30:00'
     results[2][:arrival_time].should eql '22:30:00'
-    result[:stop_id].should eql stop    
   end
 
   it 'should filter stop times based on the parameters passed in - single stops for multiple trip_ids and early morning' do
@@ -170,15 +170,15 @@ describe "Metra schedule service" do
     time = '08:00:00'
     stop = 'OTC'
     results = @service.search_stop_times($fake_stop_times, 
-      {:trips => trip_ids, :time => time, :stop => stop})
+      {:trips => trip_ids, :time => time, :stop_id => stop})
 
-    results.size.should eql 3
+    results.size.should eql 2
     results.each do |result|
       trip_ids.should include result[:trip_id]
+      result[:stop_id].should eql stop    
     end
     results[0][:arrival_time].should eql '10:30:00'
     results[1][:arrival_time].should eql '22:30:00'
-    result[:stop_id].should eql stop    
   end
 
   it 'should filter stop times based on the parameters passed in - single stops for multiple trip_ids and early morning' do
@@ -186,14 +186,14 @@ describe "Metra schedule service" do
     time = '18:00:00'
     stop = 'OTC'
     results = @service.search_stop_times($fake_stop_times, 
-      {:trips => trip_ids, :time => time, :stop => stop})
+      {:trips => trip_ids, :time => time, :stop_id => stop})
 
-    results.size.should eql 3
+    results.size.should eql 1
     results.each do |result|
       trip_ids.should include result[:trip_id]
+      result[:stop_id].should eql stop    
     end
     results[0][:arrival_time].should eql '22:30:00'
-    result[:stop_id].should eql stop    
   end
 
   #####################################################################################

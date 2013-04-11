@@ -46,8 +46,20 @@ module Horae
         time = opts[:time]
         stop_id = opts[:stop_id]
 
-        raise "InvalidParameters" unless !opts[:trips].nil? && !opts[:time].nil? && !opts[:stop_id].nil?
+        if opts[:trips].nil? || opts[:time].nil? || opts[:stop_id].nil? then
+          raise "InvalidSearchCriteria!"
+        end
 
+        parsed_time = @gtfs_parser.parse_time_string(time)
+        all_stop_times = stop_times
+
+        ret_stops = all_stop_times.select { |stop| 
+          (trips.include? stop[:trip_id]) &&
+          (@gtfs_parser.parse_time_string(stop[:arrival_time]) > parsed_time) &&
+          (stop[:stop_id].eql? stop_id)
+        }
+
+        ret_stops
       end
 
       # Search through provided list of trips and filter optionally by service_id and route_id
