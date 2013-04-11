@@ -165,7 +165,7 @@ describe "Metra schedule service" do
     results[2][:arrival_time].should eql '22:30:00'
   end
 
-  it 'should filter stop times based on the parameters passed in - single stops for multiple trip_ids and early morning' do
+  it 'should filter stop times based on the parameters passed in - single stops for multiple trip_ids and early morning, filter by time' do
     trip_ids = ['UPN_V1-1', 'UPN_V1-2', 'UPN_V1-3']
     time = '08:00:00'
     stop = 'OTC'
@@ -181,7 +181,7 @@ describe "Metra schedule service" do
     results[1][:arrival_time].should eql '22:30:00'
   end
 
-  it 'should filter stop times based on the parameters passed in - single stops for multiple trip_ids and early morning' do
+  it 'should filter stop times based on the parameters passed in - single stops for multiple trip_ids and early morning, filter more by time' do
     trip_ids = ['UPN_V1-1', 'UPN_V1-2', 'UPN_V1-3']
     time = '18:00:00'
     stop = 'OTC'
