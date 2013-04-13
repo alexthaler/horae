@@ -70,14 +70,15 @@ module Horae
 
         valid_trips = trips.select { |trip| 
           trip[:service_id].eql? service_id
-        }.select{ |trip| 
+        }
+        trips_with_route = valid_trips.select{ |trip| 
           if !route_id.nil? then 
             trip[:route_id].eql? route_id 
           else 
             true
           end 
         }
-        valid_trips.map {|trip| trip[:trip_id]}
+        trips_with_route.map {|trip| trip[:trip_id]}
       end
 
 

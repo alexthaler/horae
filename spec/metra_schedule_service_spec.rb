@@ -16,9 +16,14 @@ describe "Metra schedule service" do
     $fake_stop_times = [
       {:trip_id => 'UPN_V1-1', :arrival_time => '04:30:00', :stop_id => 'OTC'},
       {:trip_id => 'UPN_V1-2', :arrival_time => '10:30:00', :stop_id => 'OTC'},
+      {:trip_id => 'UPN_V1-2', :arrival_time => '11:00:00', :stop_id => 'CLYBOURN'},
+      {:trip_id => 'UPN_V1-2', :arrival_time => '11:30:00', :stop_id => 'RAVENSWOOD'},
       {:trip_id => 'UPN_V1-3', :arrival_time => '22:30:00', :stop_id => 'OTC'},
+      {:trip_id => 'UPN_V1-3', :arrival_time => '23:00:00', :stop_id => 'RAVENSWOOD'},
+      {:trip_id => 'UPN_V1-3', :arrival_time => '23:59:00', :stop_id => 'KENOSHA'},
       {:trip_id => 'UPN_V1-1', :arrival_time => '05:00:00', :stop_id => 'CLYBOURN'},
       {:trip_id => 'UPN_V1-1', :arrival_time => '05:30:00', :stop_id => 'RAVENSWOOD'},
+      {:trip_id => 'UPN_V1-1', :arrival_time => '06:30:00', :stop_id => 'NCHICAGO'},
       {:trip_id => 'UPW_V1-1', :arrival_time => '22:30:00', :stop_id => 'OTC'},
       {:trip_id => 'BNSF_V1-1', :arrival_time => '05:30:00', :stop_id => 'CUS'},
       {:trip_id => 'BNSF_V1-1', :arrival_time => '06:30:00', :stop_id => 'BERWYN'},
@@ -194,6 +199,17 @@ describe "Metra schedule service" do
       result[:stop_id].should eql stop    
     end
     results[0][:arrival_time].should eql '22:30:00'
+  end
+
+  it 'should filter stop times based on the parameters passed in - actual data' do
+    all_trips = @service.trips
+    trip_ids = @service.search_trips(all_trips, {:service_id => 'S1', :route_id => 'UP-N'})
+    time = '0:00:00'
+    stop = 'RAVENSWOOD'
+    results = @service.search_stop_times(@service.stop_times, 
+      {:trips => trip_ids, :time => time, :stop_id => stop})
+
+    results.size.should eql 58
   end
 
   #####################################################################################
