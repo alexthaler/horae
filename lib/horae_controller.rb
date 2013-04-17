@@ -19,8 +19,16 @@ class HoraeController < Sinatra::Base
 		$metra_schedule_service.routes().to_json
 	end
 
+	get '/routes/:route_id' do
+		$metra_schedule_service.routes(:id_list => [params[:route_id]]).to_json
+	end
+
+	get '/routes/:route_id/stops' do
+		$metra_schedule_service.stops_for_route(params[:route_id]).to_json
+	end
+
 	get '/live/:line/:origin/:dest' do 
-		$metra_scrape_service.get_live_results(
+		result = $metra_scrape_service.get_live_results(
 			{:line => params[:line], :origin => params[:origin], :dest => params[:dest]}).to_json
 	end
 

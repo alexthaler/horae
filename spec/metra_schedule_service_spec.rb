@@ -265,6 +265,39 @@ describe "Metra schedule service" do
   ## getters tests
   #####################################################################################
 
+  it 'stops_for_route should return the full raw stops object for stops within that route' do
+    result = @service.stops_for_route('BNSF')
+    result.size.should eql 26
+    result[0][:stop_id].should eql 'AURORA'
+    result[25][:stop_id].should eql 'CUS'
+  end
+
+  it 'stops_for_route should return the full raw stops object for stops within that route' do
+    result = @service.stops_for_route('UP-NW')
+    result.size.should eql 23
+    result[0][:stop_id].should eql 'CLYBOURN'
+    result[22][:stop_id].should eql 'OTC'
+  end
+
+  it 'stop_ids_for_route with live data returns correct stop counts per line' do
+    result = @service.stop_ids_for_route('BNSF')
+    result.size.should eql 26
+    result.should eql ["AURORA", "ROUTE59", "NAPERVILLE", "LISLE", "BELMONT", "MAINST-DG", 
+      "FAIRVIEWDG", "WESTMONT", "CLARNDNHIL", "HINSDALE", "WESTSPRING", "LAGRANGE", "CUS", 
+      "HALSTED", "BNWESTERN", "CICERO", "BERWYN", "HARLEM", "RIVERSIDE", "BROOKFIELD", 
+      "HIGHLANDS", "WHINSDALE", "STONEAVE", "CONGRESSPK", "HOLLYWOOD", "LAVERGNE"]
+  end
+
+  it 'stop_ids_for_route with live data returns correct stop counts per line' do
+    result = @service.stop_ids_for_route('UP-N')
+    result.size.should eql 27
+    result.should eql ["WAUKEGAN", "LAKEBLUFF", "LKFOREST", "HIGHLANDPK", "GLENCOE", 
+      "WINNETKA", "WILMETTE", "CENTRALST", "EVANSTON", "MAINST", "ROGERPK", "RAVENSWOOD", 
+      "CLYBOURN", "OTC", "KENILWORTH", "INDIANHILL", "HUBARDWOOD", "BRAESIDE", "RAVINIA", 
+      "HIGHWOOD", "FTSHERIDAN", "GRTLAKES", "NCHICAGO", "ZION", "WINTHROP", "KENOSHA", 
+      "RAVINIAPK"]
+  end
+
   it 'routes - should return only the route ids by default' do
     route_ids = @service.routes
     route_ids.length.should eql 11
@@ -279,6 +312,12 @@ describe "Metra schedule service" do
     route_ids[0].size.should be > 1
     route_ids[10][:route_id].should eql 'UP-W'
     route_ids[10].size.should be > 1
+  end
+
+  it 'routes should return only routes where the route_id is contained within the supplied id_list param' do
+    route_ids = @service.routes(:id_list => ['BNSF'])
+    route_ids.length.should eql 1
+    route_ids[0][:route_id].should eql 'BNSF'
   end
 
   it 'routes - should raise parsing error when source file is not valid' do
@@ -298,6 +337,12 @@ describe "Metra schedule service" do
     stops.length.should eql 239
     stops[0][:stop_id].should eql 'GENEVA'
     stops[238][:stop_id].should eql '35TH'
+  end
+
+  it 'stops - should only return stops objects that have an id within id_list if provided' do 
+    stops = @service.stops({:id_list => ["GENEVA"]})
+    stops.length.should eql 1
+    stops[0][:stop_id].should eql 'GENEVA'
   end
 
   it 'stops - should raise parsing error when source file is not valid' do

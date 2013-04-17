@@ -114,7 +114,13 @@ module Horae
           raise "InvalidCSV"
         end
 
-        return raw_routes unless !opts[:raw]
+        if opts[:raw]
+          return raw_routes
+        elsif !opts[:id_list].nil?
+          return raw_routes.select { |route| 
+            opts[:id_list].include? route[:route_id]
+          }
+        end
 
         raw_routes.each_with_index do |stop, index|
           ret_routes[index] = stop[:route_id]
@@ -122,6 +128,31 @@ module Horae
 
         ret_routes
     	end
+
+      def stops_for_route(route_id) 
+        stop_ids = stop_ids_for_route(route_id)
+        stops({:id_list => stop_ids})
+      end
+
+      def stop_ids_for_route(route_id) 
+        all_stop_ids = stops({:raw => false})
+
+        trips_for_line = trips.select { |trip|
+          trip[:route_id].eql? route_id
+        }
+        trip_ids_for_line = trips_for_line.map { |trip|
+          trip[:trip_id]
+        }
+
+        stops_for_trips = []
+        stop_times.each do |stop|
+          if trip_ids_for_line.include? stop[:trip_id] and !stops_for_trips.include? stop[:stop_id]
+            stops_for_trips.push(stop[:stop_id])
+          end
+        end
+
+        stops_for_trips
+      end
 
     	def stops(opts = {})
         ret_stops = []
@@ -132,10 +163,16 @@ module Horae
           raise "InvalidCSV"
         end
 
-        return raw_stops unless !opts[:raw]
+        if opts[:raw]
+          return raw_stops
+        elsif !opts[:id_list].nil?
+          return raw_stops.select { |stop| 
+            opts[:id_list].include? stop[:stop_id]
+          }
+        end
 
         raw_stops.each_with_index do |stop, index|
-          ret_stops[index] = stop[:stop_id]
+          ret_stops.push(stop[:stop_id])
         end
 
         ret_stops

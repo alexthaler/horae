@@ -41,7 +41,8 @@ module Horae
                     scheduled_time = table_row.td(:index => result_columns[1]).text unless !table_row.td(:index => result_columns[1]).exists?
                     actual_time = table_row.td(:index => result_columns[2]).text unless !table_row.td(:index => result_columns[2]).exists?
 
-                    results.push(LiveResult.new(train_num, scheduled_time, actual_time))
+                    result = {:train_number => train_num, :scheduled_time => scheduled_time, :actual_time => actual_time}
+                    results.push(result)
                 end
             end
 
