@@ -9,6 +9,17 @@ class HoraeController < Sinatra::Base
 	configure do 
 		$metra_schedule_service = Horae::MetraScheduleService.new()
 		$metra_live_service = Horae::MetraLiveService.new()
+
+        set :public_folder, 'public'
+        enable :logging
+
+        # Spit stdout and stderr to a file during production
+        # in case something goes wrong
+        $stdout.sync = true
+	end
+
+	get '/' do
+        send_file File.join(settings.public_folder, 'index.html')
 	end
 
 	get '/stops' do 
@@ -20,7 +31,7 @@ class HoraeController < Sinatra::Base
 	end
 
 	get '/routes' do 
-		$metra_schedule_service.routes().to_json
+		$metra_schedule_service.routes({:raw => true}).to_json
 	end
 
 	get '/routes/:route_id' do
