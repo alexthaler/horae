@@ -1,18 +1,22 @@
 require 'sinatra'
 require 'json'
 require_relative 'metra_schedule_service.rb'
-require_relative 'metra_scrape_service.rb'
+require_relative 'metra_live_service.rb'
 
 
 class HoraeController < Sinatra::Base
 
 	configure do 
 		$metra_schedule_service = Horae::MetraScheduleService.new()
-		$metra_scrape_service = Horae::MetraScrapeService.new()
+		$metra_live_service = Horae::MetraLiveService.new()
 	end
 
 	get '/stops' do 
 		$metra_schedule_service.stops().to_json
+	end
+
+	get '/stops/:line' do 
+		$metra_live_service.stops(params[:line]).to_json
 	end
 
 	get '/routes' do 
