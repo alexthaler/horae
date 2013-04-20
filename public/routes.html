@@ -1,0 +1,7 @@
+<div ng-repeat="route in routes">
+	<a href="#/route/{{route.route_short_name}}">
+		<div class="route_card" style="background:#{{route.route_color}}">
+			<h3 style="text">{{route.route_short_name}} - {{route.route_long_name}}</h3>
+		</div>
+	</a>
+</div>
