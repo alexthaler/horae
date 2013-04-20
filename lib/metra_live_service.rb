@@ -54,6 +54,9 @@ module Horae
 				date_strings.each do |string|
 					train[string] = convert_date_time(train[string])
 				end
+
+				estimated_depart = Time.parse(train['estimated_dpt_time'])
+				train['eta_min'] = ((Time.now - estimated_depart)/60).floor.abs
 			end
 
 			response
