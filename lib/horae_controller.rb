@@ -32,8 +32,7 @@ class HoraeController < Sinatra::Base
 	end
 
 	get '/live/:line/:origin/:dest' do 
-		result = $metra_scrape_service.get_live_results(
-			{:line => params[:line], :origin => params[:origin], :dest => params[:dest]}).to_json
+		result = $metra_live_service.live_status(params[:line], params[:origin], params[:dest]).to_json
 	end
 
 end
