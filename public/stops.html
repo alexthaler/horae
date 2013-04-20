@@ -1,5 +1,7 @@
 <div ng-repeat="stop in stops">
-	<div class="route_card" style="background:#{{route.route_color}}">
-		<h3 style="text">{{stop.stop_name}}</h3>
-	</div>
+	<a href="{{generateLink(stop)}}">
+		<div class="route_card" style="background:#{{route.route_color}}">
+			<h3 style="text">{{stop.stop_name}}</h3>
+		</div>
+	</a>
 </div>
