@@ -19,7 +19,6 @@ horae.controller('RouteCtrl', ['$scope', '$http', function RouteCtrl($scope, $ht
 horae.controller('StopCtrl', ['$scope', '$http', '$routeParams', function StopCtrl($scope, $http, $routeParams) {
 	$http.get("/routes/" + $routeParams.route_id)
 	.success(function(data) {
-		console.log('yay route should be populated with ' + data[0]);
 		$scope.route = data[0];
 	}).error(function() {
 		//for now do nothing
