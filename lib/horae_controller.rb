@@ -39,7 +39,18 @@ class HoraeController < Sinatra::Base
 	end
 
 	get '/routes/:route_id/stops' do
-		$metra_schedule_service.stops_for_route(params[:route_id]).to_json
+		live_data = $metra_live_service.stops(params[:route_id])
+		schedule_data = $metra_schedule_service.stops_for_route(params[:route_id])
+
+		live_data.each do |key, value| 
+			schedule_data.each do |sched_data|
+				if sched_data[:stop_id] == value['id']
+					sched_data[:stop_index] = key.to_i
+				end
+			end
+		end
+
+		schedule_data.to_json
 	end
 
 	get '/live/:line/:origin/:dest' do 
