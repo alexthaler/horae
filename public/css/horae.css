@@ -1,12 +1,41 @@
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
-  .route_card {
-  	color: #FFFFFF;
-  }
+body {
+	margin:0;
+	padding:0;
+}
+
+.title {
+	color: #FFFFFF;
+	background: #444444;
+	font-size: 2em;
+	font-weight: bold;
+	text-align: center;
 }
 
 .route_card {
 	color: #000000;
-	border: 2px solid;
-	border-radius: 5px;
+	border: 2px solid black;
 	padding-left: 1.5em;
+}
+
+.statuscard {
+	color: #000000;
+	border-top-style: solid;
+}
+
+.statuscard .firstLine {
+	font-size:1.25em;
+}
+
+.secondLine p{
+	font-size: 1em;
+}
+
+.alignLeft {
+	float:left;
+	padding-left: 1em;
+}
+
+.alignRight {
+	float:right;
+	padding-right: 1em;
 }

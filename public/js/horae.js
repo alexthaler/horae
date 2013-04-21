@@ -13,9 +13,32 @@ horae.controller('StatusCtrl', ['$scope', '$http', '$routeParams', function Stat
 	$http.get("/live/" + $routeParams.route_id + "/" + $routeParams.origin_id + "/" + $routeParams.dest_id)
 	.success(function(data) {
 		$scope.statuses = data
+		angular.forEach($scope.statuses, function(status) {
+			var date = new Date(status.estimated_dpt_time);
+			status.format_estimated_date = date.toString("hh:mm tt");
+			$scope.formatDateTimeStrings(status);
+		});
 	}).error(function() {
 		//nothing
 	});
+
+	$scope.formatDateTimeStrings = function(status) {
+		var est_date = new Date(status.estimated_dpt_time);
+		status.fmt_est_date = est_date.toString("h:mm tt");
+
+		var sched_date = new Date(status.scheduled_dpt_time);
+		status.fmt_sched_date = sched_date.toString("h:mm tt");
+
+		var numMins = status.eta_min;
+		formattedNumMins = numMins%60;
+		formattedNumHours = Math.floor(numMins/60);
+
+		if (formattedNumHours != 0) {
+			status.formatted_eta = formattedNumHours + " hrs " + formattedNumMins + "mins";
+		} else {
+			status.formatted_eta = formattedNumMins + " mins";
+		}
+	}
 }]);
 
 horae.controller('RouteCtrl', ['$scope', '$http', function RouteCtrl($scope, $http) {
@@ -48,5 +71,11 @@ horae.controller('StopCtrl', ['$scope', '$http', '$routeParams', function StopCt
 		} else {
 			return "#/status/" + $routeParams.route_id + "/" + $routeParams.origin_id + "/" + stop.stop_id;
 		}
+	}
+
+	if ($routeParams.origin_id == undefined) {
+		$scope.header_text = 'Select Origin'
+	} else {
+		$scope.header_text = 'Select Destination'
 	}
 }]);

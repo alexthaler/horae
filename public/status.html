@@ -1,3 +1,16 @@
+<div class="title">
+	Upcoming Trains
+</div>
+
 <div ng-repeat="status in statuses">
-	<h3>{{status.train_num}} - ETA {{status.eta_min}} min</h3>
+	<div class="statuscard" style="clear: both;">
+		<div class="firstLine">
+			<p class="trainNum alignLeft">Num: <b>{{status.train_num}}</b></p>
+			<p class="eta alignRight">ETA: <b>{{status.formatted_eta}}</b></p>
+		</div>
+		<div class="secondLine" style="clear: both;">
+			<p class="scheduled_time alignLeft">Schedueled: <b>{{status.fmt_sched_date }}</b></p>
+			<p class="estimated_time alignRight">Estimated: <b>{{status.fmt_est_date}}</b></p>
+		</div>
+	</div>
 </div>
