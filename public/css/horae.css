@@ -17,6 +17,10 @@ body {
 	padding-left: 1.5em;
 }
 
+.cardlink {
+    text-decoration: none;
+}
+
 .statuscard {
 	color: #000000;
 	border-top-style: solid;
