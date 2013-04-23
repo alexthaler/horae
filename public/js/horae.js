@@ -6,6 +6,7 @@ horae.config(function($routeProvider) {
 	.when('/route/:route_id', {controller:'StopCtrl', templateUrl:'stops.html'})
 	.when('/route/:route_id/:origin_id', {controller:'StopCtrl', templateUrl:'stops.html'})
 	.when('/status/:route_id/:origin_id/:dest_id', {controller:'StatusCtrl', templateUrl:'status.html'})
+	.when('/about', {templateUrl:'about.html'})
 	.otherwise({redirectTo:'/'});
 });
 
