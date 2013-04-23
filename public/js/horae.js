@@ -2,14 +2,20 @@ var horae = angular.module('horae', []);
 
 horae.config(function($routeProvider) {
 	$routeProvider
-		.when('/', {controller:'RouteCtrl', templateUrl:'routes.html'})
-		.when('/route/:route_id', {controller:'StopCtrl', templateUrl:'stops.html'})
-		.when('/route/:route_id/:origin_id', {controller:'StopCtrl', templateUrl:'stops.html'})
-		.when('/status/:route_id/:origin_id/:dest_id', {controller:'StatusCtrl', templateUrl:'status.html'})
-		.otherwise({redirectTo:'/'});
+	.when('/', {controller:'RouteCtrl', templateUrl:'routes.html'})
+	.when('/route/:route_id', {controller:'StopCtrl', templateUrl:'stops.html'})
+	.when('/route/:route_id/:origin_id', {controller:'StopCtrl', templateUrl:'stops.html'})
+	.when('/status/:route_id/:origin_id/:dest_id', {controller:'StatusCtrl', templateUrl:'status.html'})
+	.otherwise({redirectTo:'/'});
 });
 
-horae.controller('StatusCtrl', ['$scope', '$http', '$routeParams', function StatusCtrl($scope, $http, $routeParams) {
+horae.controller('StatusCtrl', ['$scope', '$http', '$routeParams', '$window', '$location', 
+	function StatusCtrl($scope, $http, $routeParams, $window, $location) {
+
+	$scope.$on('$viewContentLoaded', function(event) {
+		$window._gaq.push(['_trackPageview', $location.path()]);
+	});
+
 	$http.get("/live/" + $routeParams.route_id + "/" + $routeParams.origin_id + "/" + $routeParams.dest_id)
 	.success(function(data) {
 		$scope.statuses = data
@@ -41,7 +47,11 @@ horae.controller('StatusCtrl', ['$scope', '$http', '$routeParams', function Stat
 	}
 }]);
 
-horae.controller('RouteCtrl', ['$scope', '$http', function RouteCtrl($scope, $http) {
+horae.controller('RouteCtrl', ['$scope', '$http', '$window', '$location', function RouteCtrl($scope, $http, $window, $location) {
+	$scope.$on('$viewContentLoaded', function(event) {
+		$window._gaq.push(['_trackPageview', $location.path()]);
+	});
+
 	$http.get("/routes")
 	.success(function(data) {
 		$scope.routes = data;
@@ -50,7 +60,12 @@ horae.controller('RouteCtrl', ['$scope', '$http', function RouteCtrl($scope, $ht
 	});
 }]);
 
-horae.controller('StopCtrl', ['$scope', '$http', '$routeParams', function StopCtrl($scope, $http, $routeParams) {
+horae.controller('StopCtrl', ['$scope', '$http', '$routeParams', '$window', '$location', 
+	function StopCtrl($scope, $http, $routeParams, $window, $location) {
+	$scope.$on('$viewContentLoaded', function(event) {
+		$window._gaq.push(['_trackPageview', $location.path()]);
+	});
+
 	$http.get("/routes/" + $routeParams.route_id)
 	.success(function(data) {
 		$scope.route = data[0];
