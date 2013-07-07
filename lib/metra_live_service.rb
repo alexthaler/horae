@@ -49,7 +49,7 @@ module Horae
 			end
 
 			response.each do |train|
-				return unless train['train_num'].to_i != 0
+				return unless train['train_num'] != '0'
 				
 				date_strings.each do |string|
 					train[string] = convert_date_time(train[string])
