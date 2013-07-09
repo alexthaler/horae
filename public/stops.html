@@ -1,5 +1,11 @@
 <div class="title">
-	{{header_text}}
+	<a href="/">Horae</a>
+	<a href="/about.html" class="rightalize">About</a>
+</div>
+<div class="cardlink">
+	<div class="route_card">
+		<h3>{{header_text}}</h3>
+	</div>
 </div>
 <div ng-repeat="stop in stops | orderBy:'stop_index':true">
 	<a class="cardlink" href="{{generateLink(stop)}}">

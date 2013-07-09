@@ -12,7 +12,18 @@ body {
 }
 
 .title a {
+	text-decoration: none;
 	color:#FFFFFF;
+}
+
+.title .leftalize {
+	float: left;
+	padding-left: 1em;
+}
+
+.title .rightalize {
+	float: right;
+	padding-right: 1em;
 }
 
 .route_card {
