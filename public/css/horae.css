@@ -3,12 +3,53 @@ body {
 	padding:0;
 }
 
+.dim {
+	height:100%;
+	width:100%;
+	position:fixed;
+	left:0;
+	top:0;
+	z-index:1 !important;
+	background-color:black;
+	margin:auto;
+	display:none;
+}
+
+.loading {
+	text-align: center;
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.loading img {
+	width: 3em;
+	margin-left: 1em;
+}
+
+.loading span {
+	color: white;
+	font-size: 2em;
+}
+
 .title {
 	color: #FFFFFF;
 	background: #444444;
 	font-size: 2em;
 	font-weight: bold;
 	text-align: center;
+	padding: .2em;
+}
+
+.title-right {
+	float: right;
+	width: 1em;
+	margin-right: .5em;
 }
 
 .title a {

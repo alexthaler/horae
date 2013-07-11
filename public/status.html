@@ -1,5 +1,13 @@
+<div id="loading-overlay" class="dim">
+	<div class="loading">
+		<img src="/img/spinner.gif" alt="spinner">
+		<br>
+		<span>Loading...</span>
+	</div>
+</div>
 <div class="title">
 	<a href="/">Horae</a>
+	<img src="/img/refresh-icon.png" class="title-right" ng-click="refresh()" alt="refresh">
 </div>
 <div class="cardlink">
 	<div class="route_card">
@@ -7,7 +15,7 @@
 	</div>
 </div>
 <div ng-repeat="status in statuses">
-	<div class="statuscard" style="clear: both;">
+	<div class="statuscard" ng-click="refresh()" style="clear: both;">
 		<div class="firstLine">
 			<p class="trainNum alignLeft">Num: <b>{{status.train_num}}</b></p>
 			<p class="eta alignRight">ETA: <b>{{status.formatted_eta}}</b></p>

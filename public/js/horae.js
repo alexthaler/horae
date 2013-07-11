@@ -17,17 +17,23 @@ horae.controller('StatusCtrl', ['$scope', '$http', '$routeParams', '$window', '$
 		$window._gaq.push(['_trackPageview', $location.path()]);
 	});
 
-	$http.get("/live/" + $routeParams.route_id + "/" + $routeParams.origin_id + "/" + $routeParams.dest_id)
-	.success(function(data) {
-		$scope.statuses = data
-		angular.forEach($scope.statuses, function(status) {
-			var date = new Date(status.estimated_dpt_time);
-			status.format_estimated_date = date.toString("hh:mm tt");
-			$scope.formatDateTimeStrings(status);
+	$scope.refresh = function() {
+		document.getElementById("loading-overlay").style.display="block";
+
+		$http.get("/live/" + $routeParams.route_id + "/" + $routeParams.origin_id + "/" + $routeParams.dest_id)
+		.success(function(data) {
+			$scope.statuses = data
+			angular.forEach($scope.statuses, function(status) {
+				var date = new Date(status.estimated_dpt_time);
+				status.format_estimated_date = date.toString("hh:mm tt");
+				$scope.formatDateTimeStrings(status);
+			});
+			document.getElementById("loading-overlay").style.display="none";
+		}).error(function() {
+			document.getElementById("loading-overlay").style.display="none";
+			alert('The service is down :(');
 		});
-	}).error(function() {
-		//nothing
-	});
+	}
 
 	$scope.formatDateTimeStrings = function(status) {
 		var est_date = new Date(status.estimated_dpt_time);
@@ -46,6 +52,8 @@ horae.controller('StatusCtrl', ['$scope', '$http', '$routeParams', '$window', '$
 			status.formatted_eta = formattedNumMins + " mins";
 		}
 	}
+
+	$scope.refresh()
 }]);
 
 horae.controller('RouteCtrl', ['$scope', '$http', '$window', '$location', function RouteCtrl($scope, $http, $window, $location) {
