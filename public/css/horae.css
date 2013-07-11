@@ -50,11 +50,14 @@ body {
 	float: right;
 	width: 1em;
 	margin-right: .5em;
+	position: absolute;
+	right: 0;
 }
 
 .title a {
 	text-decoration: none;
 	color:#FFFFFF;
+	position: relative;
 }
 
 .title .leftalize {

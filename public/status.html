@@ -14,6 +14,11 @@
 		<h3>Upcoming Trains</h3>
 	</div>
 </div>
+<div ng-show="!statuses.length">
+	<div class="statuscard">
+		No data on trains servicing these stops at this time.
+	</div>
+</div>
 <div ng-repeat="status in statuses">
 	<div class="statuscard" ng-click="refresh()" style="clear: both;">
 		<div class="firstLine">
@@ -21,8 +26,8 @@
 			<p class="eta alignRight">ETA: <b>{{status.formatted_eta}}</b></p>
 		</div>
 		<div class="secondLine" style="clear: both;">
-			<p class="scheduled_time alignLeft">Schedueled: <b>{{status.fmt_sched_date }}</b></p>
-			<p class="estimated_time alignRight">Estimated: <b>{{status.fmt_est_date}}</b></p>
+			<p class="scheduled_time alignLeft">Sched: <b>{{status.fmt_sched_date }}</b></p>
+			<p class="estimated_time alignRight">Est: <b>{{status.fmt_est_date}}</b></p>
 		</div>
 	</div>
 </div>

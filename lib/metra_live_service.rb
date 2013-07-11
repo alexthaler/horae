@@ -49,7 +49,11 @@ module Horae
 			end
 
 			response.each do |train|
-				return unless train['train_num'] != '0'
+				puts "train num is #{train['train_num']}"
+				if train['train_num'] == '0000'
+					response.delete(train)
+					break
+				end
 				
 				date_strings.each do |string|
 					train[string] = convert_date_time(train[string])
@@ -59,6 +63,7 @@ module Horae
 				train['eta_min'] = ((Time.now - estimated_depart)/60).floor.abs
 			end
 
+			puts "resp - #{response}"
 			response
 		end
 
