@@ -46,14 +46,10 @@ class HoraeController < Sinatra::Base
 
 		live_data.each do |key, value| 
 			schedule_data.each do |sched_data|
-				puts "sched data #{sched_data}"
-
+				
 				delete_keys.each do |del_key|
 					sched_data.delete del_key
 				end
-
-				puts "--------"
-				puts "sched data after #{sched_data}"
 
 				if sched_data[:stop_id] == value['id']
 					sched_data[:stop_index] = key.to_i

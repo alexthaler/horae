@@ -93,6 +93,7 @@ horae.controller('StopCtrl', ['$scope', '$http', '$routeParams', '$window', '$lo
 
 		if (stored_val) {
 			$scope.route_color = stored_val
+			return;
 		}
 
 		$http.get("/routes/" + route_id)
@@ -110,12 +111,14 @@ horae.controller('StopCtrl', ['$scope', '$http', '$routeParams', '$window', '$lo
 		var stored_val = localStorageService.get(route_id + '_route_stops');
 
 		if (stored_val) {
-			$scope.stops = stored_val
+			$scope.stops = JSON.parse(stored_val);
+			document.getElementById('loading-overlay').style.display = 'none';
+			return;
 		}
 
 		$http.get("/routes/" + $routeParams.route_id + "/stops")
 		.success(function(data) {
-			localStorageService.add(route_id + '_route_stops', data);
+			localStorageService.add(route_id + '_route_stops', JSON.stringify(data));
 			$scope.stops = data;
 			document.getElementById('loading-overlay').style.display = 'none';
 		}).error(function() {
@@ -123,9 +126,9 @@ horae.controller('StopCtrl', ['$scope', '$http', '$routeParams', '$window', '$lo
 		});
 	};
 
+	document.getElementById('loading-overlay').style.display = 'block';
 	$scope.setRouteColor($routeParams.route_id);
 	$scope.setStops($routeParams.route_id);
-	document.getElementById('loading-overlay').style.display = 'block';
 
 	if ($routeParams.origin_id == undefined) {
 		$scope.header_text = 'Select Origin'
