@@ -39,11 +39,22 @@ class HoraeController < Sinatra::Base
 	end
 
 	get '/routes/:route_id/stops' do
+		delete_keys = [:zone_id, :stop_url, :stop_lon, :stop_lat, :stop_desc]
+
 		live_data = $metra_live_service.stops(params[:route_id])
 		schedule_data = $metra_schedule_service.stops_for_route(params[:route_id])
 
 		live_data.each do |key, value| 
 			schedule_data.each do |sched_data|
+				puts "sched data #{sched_data}"
+
+				delete_keys.each do |del_key|
+					sched_data.delete del_key
+				end
+
+				puts "--------"
+				puts "sched data after #{sched_data}"
+
 				if sched_data[:stop_id] == value['id']
 					sched_data[:stop_index] = key.to_i
 				end

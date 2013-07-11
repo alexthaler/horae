@@ -49,7 +49,6 @@ module Horae
 			end
 
 			response.each do |train|
-				puts "train num is #{train['train_num']}"
 				if train['train_num'] == '0000'
 					response.delete(train)
 					break
@@ -62,8 +61,6 @@ module Horae
 				estimated_depart = Time.parse(train['estimated_dpt_time'])
 				train['eta_min'] = ((Time.now - estimated_depart)/60).floor.abs
 			end
-
-			puts "resp - #{response}"
 			response
 		end
 

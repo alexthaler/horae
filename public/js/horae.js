@@ -1,4 +1,4 @@
-var horae = angular.module('horae', []);
+var horae = angular.module('horae', ['LocalStorageModule']);
 
 horae.config(function($routeProvider) {
 	$routeProvider
@@ -10,12 +10,14 @@ horae.config(function($routeProvider) {
 	.otherwise({redirectTo:'/'});
 });
 
-horae.controller('StatusCtrl', ['$scope', '$http', '$routeParams', '$window', '$location', 
-	function StatusCtrl($scope, $http, $routeParams, $window, $location) {
+horae.controller('StatusCtrl', ['$scope', '$http', '$routeParams', '$window', '$location', 'localStorageService', 
+	function StatusCtrl($scope, $http, $routeParams, $window, $location, localStorageService) {
 
 	$scope.$on('$viewContentLoaded', function(event) {
 		$window._gaq.push(['_trackPageview', $location.path()]);
 	});
+
+	localStorageService.add('last_stop_route', $location.path());
 
 	$scope.refresh = function() {
 		document.getElementById("loading-overlay").style.display="block";
@@ -56,32 +58,26 @@ horae.controller('StatusCtrl', ['$scope', '$http', '$routeParams', '$window', '$
 	$scope.refresh()
 }]);
 
-horae.controller('RouteCtrl', ['$scope', '$http', '$window', '$location', function RouteCtrl($scope, $http, $window, $location) {
+horae.controller('RouteCtrl', ['$scope', '$http', '$window', '$location', 'localStorageService', 
+	function RouteCtrl($scope, $http, $window, $location, localStorageService) {
 	$scope.$on('$viewContentLoaded', function(event) {
 		$window._gaq.push(['_trackPageview', $location.path()]);
 	});
+
+	var lastStopsUrl = localStorageService.get('last_stop_route');
+	var isint = ($location.search()).isint
+
+	if (lastStopsUrl && !isint) {
+		$location.path(lastStopsUrl);
+	}
 
 	$scope.routes = JSON.parse('[{"route_id":"BNSF","route_short_name":"BNSF","route_long_name":"Burlington Northern","route_desc":"","agency_id":"METRA","route_type":"2","route_color":"41E817","route_text_color":"000000","route_url":"http://metrarail.com/Sched/bn/bn.shtml"},{"route_id":"HC","route_short_name":"HC","route_long_name":"Heritage Corridor","route_desc":"","agency_id":"METRA","route_type":"2","route_color":"A80004","route_text_color":"FFFFFF","route_url":"http://metrarail.com/Sched/mhc/mhc.shtml"},{"route_id":"MD-N","route_short_name":"MD-N","route_long_name":"Milwaukee North","route_desc":"","agency_id":"METRA","route_type":"2","route_color":"B5640B","route_text_color":"FFFFFF","route_url":"http://metrarail.com/Sched/md_n/md_n.shtml"},{"route_id":"MD-W","route_short_name":"MD-W","route_long_name":"Milwaukee West","route_desc":"","agency_id":"METRA","route_type":"2","route_color":"F1AD0E","route_text_color":"000000","route_url":"http://metrarail.com/Sched/md_n/md_w.shtml"},{"route_id":"ME","route_short_name":"ME","route_long_name":"Metra Electric","route_desc":"","agency_id":"METRA","route_type":"2","route_color":"F1690E","route_text_color":"000000","route_url":"http://metrarail.com/Sched/me/me.shtml"},{"route_id":"NCS","route_short_name":"NCS","route_long_name":"North Central Service","route_desc":"","agency_id":"METRA","route_type":"2","route_color":"9785BC","route_text_color":"000000","route_url":"http://metrarail.com/Sched/ncs/ncs.shtml"},{"route_id":"RI","route_short_name":"RI","route_long_name":"Rock Island","route_desc":"","agency_id":"METRA","route_type":"2","route_color":"FF0000","route_text_color":"000000","route_url":"http://metrarail.com/Sched/ri/ri.shtml"},{"route_id":"SWS","route_short_name":"SWS","route_long_name":"Southwest Service","route_desc":"","agency_id":"METRA","route_type":"2","route_color":"0561FA","route_text_color":"000000","route_url":"http://metrarail.com/Sched/sws/sws.shtml"},{"route_id":"UP-N","route_short_name":"UP-N","route_long_name":"Union Pacific North","route_desc":"","agency_id":"METRA","route_type":"2","route_color":"008000","route_text_color":"000000","route_url":"http://metrarail.com/Sched/cnw_n/cnwn.shtml"},{"route_id":"UP-NW","route_short_name":"UP-NW","route_long_name":"Union Pacific Northwest","route_desc":"","agency_id":"METRA","route_type":"2","route_color":"FFFF00","route_text_color":"000000","route_url":"http://metrarail.com/Sched/cnw_nw/cnw_nw.shtml"},{"route_id":"UP-W","route_short_name":"UP-W","route_long_name":"Union Pacific West","route_desc":"","agency_id":"METRA","route_type":"2","route_color":"FE8D81","route_text_color":"000000","route_url":"http://metrarail.com/Sched/cnw_w/cnw_w.shtml"}]');
 }]);
 
-horae.controller('StopCtrl', ['$scope', '$http', '$routeParams', '$window', '$location', 
-	function StopCtrl($scope, $http, $routeParams, $window, $location) {
+horae.controller('StopCtrl', ['$scope', '$http', '$routeParams', '$window', '$location', 'localStorageService', 
+	function StopCtrl($scope, $http, $routeParams, $window, $location, localStorageService) {
 	$scope.$on('$viewContentLoaded', function(event) {
 		$window._gaq.push(['_trackPageview', $location.path()]);
-	});
-
-	$http.get("/routes/" + $routeParams.route_id)
-	.success(function(data) {
-		$scope.route = data[0];
-	}).error(function() {
-		//for now do nothing
-	});
-
-	$http.get("/routes/" + $routeParams.route_id + "/stops")
-	.success(function(data) {
-		$scope.stops = data;
-	}).error(function() {
-		//skip
 	});
 
 	$scope.generateLink = function(stop) {
@@ -90,7 +86,46 @@ horae.controller('StopCtrl', ['$scope', '$http', '$routeParams', '$window', '$lo
 		} else {
 			return "#/status/" + $routeParams.route_id + "/" + $routeParams.origin_id + "/" + stop.stop_id;
 		}
-	}
+	};
+
+	$scope.setRouteColor = function(route_id) {
+		var stored_val = localStorageService.get(route_id + '_route_color');
+
+		if (stored_val) {
+			$scope.route_color = stored_val
+		}
+
+		$http.get("/routes/" + route_id)
+		.success(function(data) {
+			console.log(data);
+			var curr_route_color = data[0].route_color;
+			localStorageService.add(route_id + '_route_color', curr_route_color);
+			$scope.route_color = curr_route_color;
+		}).error(function() {
+			//for now do nothing
+		});
+	};
+
+	$scope.setStops = function(route_id) {
+		var stored_val = localStorageService.get(route_id + '_route_stops');
+
+		if (stored_val) {
+			$scope.stops = stored_val
+		}
+
+		$http.get("/routes/" + $routeParams.route_id + "/stops")
+		.success(function(data) {
+			localStorageService.add(route_id + '_route_stops', data);
+			$scope.stops = data;
+			document.getElementById('loading-overlay').style.display = 'none';
+		}).error(function() {
+			//skip
+		});
+	};
+
+	$scope.setRouteColor($routeParams.route_id);
+	$scope.setStops($routeParams.route_id);
+	document.getElementById('loading-overlay').style.display = 'block';
 
 	if ($routeParams.origin_id == undefined) {
 		$scope.header_text = 'Select Origin'

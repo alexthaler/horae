@@ -1,5 +1,12 @@
+<div id="loading-overlay" class="dim">
+	<div class="loading">
+		<img src="/img/spinner.gif" alt="spinner">
+		<br>
+		<span>Loading...</span>
+	</div>
+</div>
 <div class="title">
-	<a href="/">Horae</a>
+	<a href="/#/?isint=true">Horae</a>
 </div>
 <div class="cardlink">
 	<div class="route_card">
@@ -8,7 +15,7 @@
 </div>
 <div ng-repeat="stop in stops | orderBy:'stop_index':true">
 	<a class="cardlink" href="{{generateLink(stop)}}">
-		<div class="route_card" style="background:#{{route.route_color}}">
+		<div class="route_card" style="background:#{{route_color}}">
 			<h3 style="text">{{stop.stop_name}}</h3>
 		</div>
 	</a>
